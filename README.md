@@ -38,7 +38,7 @@ app.use(cors({
 * ```*.github:*``` - allow any port for this host and any sub-domain
 * ```https://*.github:*``` - same as above but restrict for https only
 
-You've got the idea… If not, see `test.js` for more examples.
+You've got the idea… If not, see [test.js](https://github.com/0ctave/express-cors/blob/master/test.js) for more examples.
 
 ### Other options
 
