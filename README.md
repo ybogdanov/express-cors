@@ -34,9 +34,9 @@ app.use(cors({
 * ```github.com``` - allow any scheme for this host
 * ```*.github.com``` - allow any sub-domain including second-level domain itself
 * ```https://*.github.com``` - same as above but restrict for https only
-* ```github:*``` - allow any port for this host
-* ```*.github:*``` - allow any port for this host and any sub-domain
-* ```https://*.github:*``` - same as above but restrict for https only
+* ```github.com:*``` - allow any port for this host
+* ```*.github.com:*``` - allow any port for this host and any sub-domain
+* ```https://*.github.com:*``` - same as above but restrict for https only
 
 You've got the idea… If not, see [test.js](https://github.com/0ctave/express-cors/blob/master/test.js) for more examples.
 
