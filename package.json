@@ -1,0 +1,13 @@
+{
+    "name": "express-cors",
+    "description": "CORS middleware for expressjs",
+    "version": "v0.0.1",
+    "url": "http://github.com/0ctave/express-cors",
+    "author": "Yuriy Bogdanov <chinsay@gmail.com>",
+    "main": "index",
+    "engines": {
+        "node": ">=0.5.2"
+    },
+    "dependencies": {
+    }
+}
