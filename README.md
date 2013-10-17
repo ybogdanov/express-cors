@@ -42,9 +42,9 @@ You've got the idea… If not, see `test.js` for more examples.
 
 ### Other options
 
-* **`methods`** - array of allowed methods (default value is `GET, POST, PUT, DELETE, PATCH, OPTIONS`)
-* **`headers`** - array of allowed headers (default value is `X-Requested-With, Content-Type`)
-* **`maxAge`** - value for `Access-Control-Allow-Max-Age` header (default is `none`)
+* `methods` - array of allowed methods (default value is `GET, POST, PUT, DELETE, PATCH, OPTIONS`)
+* `headers` - array of allowed headers (default value is `X-Requested-With, Content-Type`)
+* `maxAge` - value for `Access-Control-Allow-Max-Age` header (default is `none`)
 
 # Running Tests
 
