@@ -486,7 +486,7 @@ describe('express-cors', function(){
     })
   })
 
-  describe('Access-Control-Allow-Max-Age', function(){
+  describe('Access-Control-Max-Age', function(){
 
     it('should not be by default', function(){
       var cors = expressCors({
@@ -497,7 +497,7 @@ describe('express-cors', function(){
 
       var headers = matchHeaders(cors, 'https://github.com')
 
-      assert.equal(undefined, headers['Access-Control-Allow-Max-Age'])
+      assert.equal(undefined, headers['Access-Control-Max-Age'])
     })
 
     it('should give anything we want', function(){
@@ -510,7 +510,7 @@ describe('express-cors', function(){
 
       var headers = matchHeaders(cors, 'https://github.com')
 
-      assert.equal(3600, headers['Access-Control-Allow-Max-Age'])
+      assert.equal(3600, headers['Access-Control-Max-Age'])
     })
   })
 })

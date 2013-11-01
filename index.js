@@ -82,7 +82,7 @@ module.exports = function(options) {
     }
 
     if (options.maxAge) {
-      res.set('Access-Control-Allow-Max-Age', options.maxAge)
+      res.set('Access-Control-Max-Age', options.maxAge)
     }
 
     if ('OPTIONS' == req.method) return res.send(200)
