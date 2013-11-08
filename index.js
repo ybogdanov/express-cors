@@ -26,6 +26,9 @@ module.exports = function(options) {
 
   options = options || {}
   options.allowedOrigins = options.allowedOrigins || []
+  if (!options.hasOwnProperty('allowCredentials')) {
+    options.allowCredentials = true  
+  }
   options.methods = options.methods || ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
   options.headers = options.headers || ['X-Requested-With', 'Content-Type']
 
@@ -83,6 +86,10 @@ module.exports = function(options) {
 
     if (options.maxAge) {
       res.set('Access-Control-Max-Age', options.maxAge)
+    }
+
+    if (options.allowCredentials) {
+      res.set('Access-Control-Allow-Credentials', 'true')
     }
 
     if ('OPTIONS' == req.method) return res.send(200)

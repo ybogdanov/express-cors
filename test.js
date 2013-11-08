@@ -513,6 +513,34 @@ describe('express-cors', function(){
       assert.equal(3600, headers['Access-Control-Max-Age'])
     })
   })
+
+  describe('Access-Control-Allow-Credentials', function(){
+
+    it('should be "true" by default', function(){
+      var cors = expressCors({
+        allowedOrigins: [
+          'https://github.com'
+        ]
+      })
+
+      var headers = matchHeaders(cors, 'https://github.com')
+
+      assert.equal('true', headers['Access-Control-Allow-Credentials'])
+    })
+
+    it('should be able to set to "false"', function(){
+      var cors = expressCors({
+        allowedOrigins: [
+          'https://github.com'
+        ],
+        allowCredentials: false
+      })
+
+      var headers = matchHeaders(cors, 'https://github.com')
+
+      assert.equal(undefined, headers['Access-Control-Allow-Credentials'])
+    })
+  })
 })
 
 function match(cors, origin) {
