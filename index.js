@@ -80,8 +80,6 @@ module.exports = function(options) {
       return false; //remove from strings
     });
     if (allowedOriginsStrings.length || allowedOriginsRegexps.length) {
-//console.log('allowedOriginsStrings: ' + allowedOriginsStrings);
-//console.log('allowedOriginsRegexps.length: ' + allowedOriginsRegexps.length);
       originMatch = function (origin) {
         var matched = (allowedOriginsStrings.indexOf(origin) >= 0);
         if (!matched) {
@@ -102,30 +100,22 @@ module.exports = function(options) {
   options.methods && (options.methods.join) && (options.methods = options.methods.join(', '));
   options.headers && (options.headers.join) && (options.headers = options.headers.join(', '));
 
-//console.log('originMatch: ' + (originMatch === false ? 'false' : (originMatch === true ? 'true' : 'find on lists')));
-//console.log('options.methods: ' + options.methods);
-//console.log('options.headers: ' + options.headers);
-
   // express middleware
   return !originMatch ?
     //match is impossible - always skip CORS processing
     function (req, res, next) {
-//console.log('match is impossible - skip CORS processing');
       next();
     } :
     //middleware with verification if there is a match of origin
     function(req, res, next) {
       var origin = req.get('Origin');
-//console.log('Origin: ' + origin);
       if (!origin || ((originMatch !== true) && !originMatch(origin))) {
-//console.log('Origin not matched');
         //request without Origin header or origin not matched - skip CORS processing
         return next();
       }
       res.set('Access-Control-Allow-Origin', origin);
 
       if (options.methods) {
-//console.log('adding methods');
         res.set(
           'Access-Control-Allow-Methods',
           options.methods === true ? //verify if all methods are allowed
@@ -135,7 +125,6 @@ module.exports = function(options) {
       }
 
       if (options.headers) {
-//console.log('adding headers');
         res.set(
           'Access-Control-Allow-Headers',
           options.headers === true ? //verify if all headers are allowed
@@ -145,21 +134,17 @@ module.exports = function(options) {
       }
 
       if (options.maxAge) {
-//console.log('adding maxAge: ' + options.maxAge);
         res.set('Access-Control-Max-Age', options.maxAge);
       }
 
       if (options.allowCredentials) {
-//console.log('adding credentials: true');
         res.set('Access-Control-Allow-Credentials', 'true');
       }
 
       if ('OPTIONS' == req.method) {
-//console.log('OPTIONS method detected - send response 200 without further processing');
         return res.send(200);
       }
 
-//console.log('CORS processing done, execute standard request processing');
       next();
     };
 };
