@@ -24,79 +24,131 @@
 
 module.exports = function(options) {
 
-  options = options || {}
-  options.allowedOrigins = options.allowedOrigins || []
+  options = options || {};
   if (!options.hasOwnProperty('allowCredentials')) {
-    options.allowCredentials = true  
+    options.allowCredentials = true;
   }
-  options.methods = options.methods || ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
-  options.headers = options.headers || ['X-Requested-With', 'Content-Type']
+  options.methods = options.methods || ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'];
+  options.headers = options.headers || ['X-Requested-With', 'Content-Type'];
 
-  // Parse allowed origins list and turn them all into regexps
-  var allowedOrigins = options.allowedOrigins.map(function(origin){
-    // check if allowed origin starts with http:// or https://
-    // of not, then we should allow both
-    var anyHttp = !origin.match(/^https?:\/\//)
-    // random hash tokens to escape wildcard sequences like "*." and ":*"
-    var rand = 'WnqkQwirtbRoerjaSnei20ssbqQi',
-        rand1 = rand + '1',
-        rand2 = rand + '2'
-    // hide wildcard sequences
-    origin = origin.replace(/\*\./g, rand1)
-    origin = origin.replace(/:\*/g, rand2)
-    // escape wildcard regexp characters in origin value
-    origin = escapeRegExp(origin)
-    // return wildcard sequences back, turning them into reg expressions
-    origin = origin.replace(new RegExp(rand1, 'g'), '(.*\\.)?')
-    origin = origin.replace(new RegExp(rand2, 'g'), '(:\\d+)?')
-    // append http/https expression if we allow both
-    if (anyHttp) {
-      origin = '^https?:\/\/' + origin + '$'
-    }
-    else {
-      origin = '^' + origin + '$'
-    }
+  //verify if any origin allowed
+  if (options.allowedOrigins === '*') options.allowedOrigins = true;
 
-    return new RegExp(origin)
-  })
+  // if string provided as allowed origins, convert to single element array
+  if (typeof options.allowedOrigins === 'string') options.allowedOrigins = [options.allowedOrigins];
+
+  var originMatch = false;
+  if (options.allowedOrigins === true) {
+    //match all origins
+    originMatch = true;
+  }
+  else {
+    // Parse allowed origins list and turn them all into regexps if needed
+    var allowedOriginsRegexps = [];
+    var allowedOriginsStrings = options.allowedOrigins.filter(function(origin){
+      // check if allowed origin starts with http:// or https://
+      // if not, then we should allow both
+      var anyHttp = !origin.match(/^https?:\/\//);
+      // random hash tokens to escape wildcard sequences like "*." and ":*"
+      var rand = 'WnqkQwirtbRoerjaSnei20ssbqQi',
+          rand1 = rand + '1',
+          rand2 = rand + '2';
+      // to detect if regexp is needed store original origin
+      var original_origin = origin;
+      // hide wildcard sequences
+      origin = origin.replace(/\*\./g, rand1);
+      origin = origin.replace(/:\*/g, rand2);
+      if (!anyHttp && (original_origin === origin)) {
+        //there was strict requirement for protocol
+        //and no one wildcard sequence so
+        //regexp is not needed = keep as string
+        return true;
+      }
+      // escape wildcard regexp characters in origin value
+      origin = escapeRegExp(origin);
+      // return wildcard sequences back, turning them into reg expressions
+      origin = origin.replace(new RegExp(rand1, 'g'), '(.*\\.)?');
+      origin = origin.replace(new RegExp(rand2, 'g'), '(:\\d+)?');
+      // append http/https expression if we allow both
+      if (anyHttp) {
+        origin = '^https?:\/\/' + origin + '$';
+      }
+      else {
+        origin = '^' + origin + '$';
+      }
+      allowedOriginsRegexps.push(new RegExp(origin));
+      return false; //remove from strings
+    });
+    if (allowedOriginsStrings.length || allowedOriginsRegexps.length) {
+      originMatch = function (origin) {
+        var matched = (allowedOriginsStrings.indexOf(origin) >= 0);
+        if (!matched) {
+          // match against all prepared regexp origins
+          for (i = 0; i < allowedOriginsRegexps.length; ++i) {
+            if (allowedOriginsRegexps[i].test(origin)) {
+              matched = true;
+              break;
+            }
+          }
+        }
+        return matched;
+      };
+    }
+  }
+
+  //prepare ready to use headers if arrays of strings provided in options
+  options.methods && (options.methods.join) && (options.methods = options.methods.join(', '));
+  options.headers && (options.headers.join) && (options.headers = options.headers.join(', '));
 
   // express middleware
-  return function(req, res, next){
-    var origin = req.get('Origin'), i, matched = false
-
-    // match against all prepared regexp origins
-    for (i = 0; i < allowedOrigins.length; i++) {
-      if (allowedOrigins[i].test(origin)) {
-        matched = true
-        break
+  return !originMatch ?
+    //match is impossible - always skip CORS processing
+    function (req, res, next) {
+      next();
+    } :
+    //middleware with verification if there is a match of origin
+    function(req, res, next) {
+      var origin = req.get('Origin');
+      if (!origin || ((originMatch !== true) && !originMatch(origin))) {
+        //request without Origin header or origin not matched - skip CORS processing
+        return next();
       }
-    }
+      res.set('Access-Control-Allow-Origin', origin);
 
-    if (!matched) return next()
+      if (options.methods) {
+        res.set(
+          'Access-Control-Allow-Methods',
+          options.methods === true ? //verify if all methods are allowed
+              req.get('Access-Control-Request-Method') : //return requested method
+              options.methods //comma separated list of methods
+        );
+      }
 
-    res.set('Access-Control-Allow-Origin', origin)
+      if (options.headers) {
+        res.set(
+          'Access-Control-Allow-Headers',
+          options.headers === true ? //verify if all headers are allowed
+            req.get('Access-Control-Request-Headers') : //return requested header
+            options.headers //comma separated list of headers
+        );
+      }
 
-    if (options.methods.length) {
-      res.set('Access-Control-Allow-Methods', options.methods.join(', '))
-    }
-    
-    if (options.headers.length) {
-      res.set('Access-Control-Allow-Headers', options.headers.join(', '))  
-    }
+      if (options.maxAge) {
+        res.set('Access-Control-Max-Age', options.maxAge);
+      }
 
-    if (options.maxAge) {
-      res.set('Access-Control-Max-Age', options.maxAge)
-    }
+      if (options.allowCredentials) {
+        res.set('Access-Control-Allow-Credentials', 'true');
+      }
 
-    if (options.allowCredentials) {
-      res.set('Access-Control-Allow-Credentials', 'true')
-    }
+      if ('OPTIONS' == req.method) {
+        return res.send(200);
+      }
 
-    if ('OPTIONS' == req.method) return res.send(200)
-    next()
-  }
-}
+      next();
+    };
+};
 
 function escapeRegExp(str) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-}
+};
