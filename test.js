@@ -8,7 +8,7 @@ describe('express-cors', function(){
       allowedOrigins: []
     })
 
-    it('sould not match anything', function(){
+    it('should not match anything', function(){
       assert.ok(!match(cors, 'http://github.com'))
       assert.ok(!match(cors, 'https://google.com'))
     })
@@ -22,39 +22,39 @@ describe('express-cors', function(){
       ]
     })
 
-    it('sould match correct scheme', function(){
+    it('should match correct scheme', function(){
       assert.ok(match(cors, 'http://github.com'))
       assert.ok(match(cors, 'https://google.com'))
     })
 
-    it('sould not match incorrect scheme', function(){
+    it('should not match incorrect scheme', function(){
       assert.ok(!match(cors, 'https://github.com'))
       assert.ok(!match(cors, 'http://google.com'))
     })
 
-    it('sould not match with port', function(){
+    it('should not match with port', function(){
       assert.ok(!match(cors, 'https://github.com:80'))
       assert.ok(!match(cors, 'http://google.com:80'))
     })
 
-    it('sould not match suffix-like hosts', function(){
+    it('should not match suffix-like hosts', function(){
       assert.ok(!match(cors, 'http://github.com.test'))
       assert.ok(!match(cors, 'https://github.com.test'))
     })
 
-    it('sould not match prefix-like hosts', function(){
+    it('should not match prefix-like hosts', function(){
       assert.ok(!match(cors, 'http://testgithub.com'))
       assert.ok(!match(cors, 'https://testgithub.com'))
     })
 
-    it('sould not match sub-level hosts', function(){
+    it('should not match sub-level hosts', function(){
       assert.ok(!match(cors, 'http://test.github.com'))
       assert.ok(!match(cors, 'http://a.test.github.com'))
       assert.ok(!match(cors, 'https://test.github.com'))
       assert.ok(!match(cors, 'https://a.test.github.com'))
     })
 
-    it('sould not match incorrect host', function(){
+    it('should not match incorrect host', function(){
       assert.ok(!match(cors, 'http://microsoft.com'))
       assert.ok(!match(cors, 'http://'))
       assert.ok(!match(cors, 'https://microsoft.com'))
@@ -69,24 +69,24 @@ describe('express-cors', function(){
       ]
     })
 
-    it('sould match any scheme', function(){
+    it('should match any scheme', function(){
       assert.ok(match(cors, 'http://github.com'))
       assert.ok(match(cors, 'https://github.com'))
     })
 
-    it('sould not match with port', function(){
+    it('should not match with port', function(){
       assert.ok(!match(cors, 'http://github.com:80'))
       assert.ok(!match(cors, 'https://github.com:80'))
     })
 
-    it('sould not match sub-level hosts', function(){
+    it('should not match sub-level hosts', function(){
       assert.ok(!match(cors, 'http://test.github.com'))
       assert.ok(!match(cors, 'http://a.test.github.com'))
       assert.ok(!match(cors, 'https://test.github.com'))
       assert.ok(!match(cors, 'https://a.test.github.com'))
     })
 
-    it('sould not match incorrect host', function(){
+    it('should not match incorrect host', function(){
       assert.ok(!match(cors, 'http://microsoft.com'))
       assert.ok(!match(cors, 'https://microsoft.com'))
       assert.ok(!match(cors, 'http://'))
@@ -101,39 +101,39 @@ describe('express-cors', function(){
       ]
     })
 
-    it('sould match given scheme', function(){
+    it('should match given scheme', function(){
       assert.ok(match(cors, 'https://github.com'))
     })
 
-    it('sould match given scheme with sub-level host', function(){
+    it('should match given scheme with sub-level host', function(){
       assert.ok(match(cors, 'https://test.github.com'))
       assert.ok(match(cors, 'https://a.test.github.com'))
     })
 
-    it('sould not match with port', function(){
+    it('should not match with port', function(){
       assert.ok(!match(cors, 'https://github.com:80'))
       assert.ok(!match(cors, 'https://test.github.com:80'))
     })
 
-    it('sould not match incorrect scheme', function(){
+    it('should not match incorrect scheme', function(){
       assert.ok(!match(cors, 'http://github.com'))
     })
 
-    it('sould not match incorrect scheme with sub-level host', function(){
+    it('should not match incorrect scheme with sub-level host', function(){
       assert.ok(!match(cors, 'http://test.github.com'))
     })
 
-    it('sould not match suffix-like hosts', function(){
+    it('should not match suffix-like hosts', function(){
       assert.ok(!match(cors, 'http://github.com.test'))
       assert.ok(!match(cors, 'https://github.com.test'))
     })
 
-    it('sould not match prefix-like hosts', function(){
+    it('should not match prefix-like hosts', function(){
       assert.ok(!match(cors, 'http://testgithub.com'))
       assert.ok(!match(cors, 'https://testgithub.com'))
     })
 
-    it('sould not match incorrect host', function(){
+    it('should not match incorrect host', function(){
       assert.ok(!match(cors, 'http://microsoft.com'))
       assert.ok(!match(cors, 'https://microsoft.com'))
       assert.ok(!match(cors, 'http://'))
@@ -148,36 +148,36 @@ describe('express-cors', function(){
       ]
     })
 
-    it('sould match any scheme', function(){
+    it('should match any scheme', function(){
       assert.ok(match(cors, 'https://github.com'))
       assert.ok(match(cors, 'http://github.com'))
     })
 
-    it('sould match any scheme with sub-level host', function(){
+    it('should match any scheme with sub-level host', function(){
       assert.ok(match(cors, 'https://test.github.com'))
       assert.ok(match(cors, 'http://test.github.com'))
       assert.ok(match(cors, 'https://a.test.github.com'))
       assert.ok(match(cors, 'http://a.test.github.com'))
     })
 
-    it('sould not match with port', function(){
+    it('should not match with port', function(){
       assert.ok(!match(cors, 'https://github.com:80'))
       assert.ok(!match(cors, 'http://github.com:80'))
       assert.ok(!match(cors, 'https://test.github.com:80'))
       assert.ok(!match(cors, 'http://test.github.com:80'))
     })
 
-    it('sould not match suffix-like hosts', function(){
+    it('should not match suffix-like hosts', function(){
       assert.ok(!match(cors, 'http://github.com.test'))
       assert.ok(!match(cors, 'https://github.com.test'))
     })
 
-    it('sould not match prefix-like hosts', function(){
+    it('should not match prefix-like hosts', function(){
       assert.ok(!match(cors, 'http://testgithub.com'))
       assert.ok(!match(cors, 'https://testgithub.com'))
     })
 
-    it('sould not match incorrect host', function(){
+    it('should not match incorrect host', function(){
       assert.ok(!match(cors, 'http://microsoft.com'))
       assert.ok(!match(cors, 'https://microsoft.com'))
       assert.ok(!match(cors, 'http://'))
@@ -192,35 +192,35 @@ describe('express-cors', function(){
       ]
     })
 
-    it('sould match correct scheme and port', function(){
+    it('should match correct scheme and port', function(){
       assert.ok(match(cors, 'https://github.com:80'))
     })
 
-    it('sould not match incorrect scheme', function(){
+    it('should not match incorrect scheme', function(){
       assert.ok(!match(cors, 'http://github.com:80'))
     })
 
-    it('sould not match incorrect port', function(){
+    it('should not match incorrect port', function(){
       assert.ok(!match(cors, 'https://github.com:8080'))
     })
 
-    it('sould not match without port', function(){
+    it('should not match without port', function(){
       assert.ok(!match(cors, 'https://github.com'))
     })
 
-    it('sould not match suffix-like hosts', function(){
+    it('should not match suffix-like hosts', function(){
       assert.ok(!match(cors, 'https://github.com.test:80'))
     })
 
-    it('sould not match prefix-like hosts', function(){
+    it('should not match prefix-like hosts', function(){
       assert.ok(!match(cors, 'https://testgithub.com:80'))
     })
 
-    it('sould not match sub-level hosts', function(){
+    it('should not match sub-level hosts', function(){
       assert.ok(!match(cors, 'https://test.github.com:80'))
     })
 
-    it('sould not match incorrect host', function(){
+    it('should not match incorrect host', function(){
       assert.ok(!match(cors, 'http://microsoft.com:80'))
       assert.ok(!match(cors, 'https://microsoft.com:80'))
     })
@@ -233,37 +233,37 @@ describe('express-cors', function(){
       ]
     })
 
-    it('sould match any scheme and port', function(){
+    it('should match any scheme and port', function(){
       assert.ok(match(cors, 'https://github.com:80'))
       assert.ok(match(cors, 'http://github.com:80'))
     })
 
-    it('sould not match incorrect port', function(){
+    it('should not match incorrect port', function(){
       assert.ok(!match(cors, 'https://github.com:8080'))
       assert.ok(!match(cors, 'http://github.com:8080'))
     })
 
-    it('sould not match without port', function(){
+    it('should not match without port', function(){
       assert.ok(!match(cors, 'https://github.com'))
       assert.ok(!match(cors, 'http://github.com'))
     })
 
-    it('sould not match suffix-like hosts', function(){
+    it('should not match suffix-like hosts', function(){
       assert.ok(!match(cors, 'https://github.com.test:80'))
       assert.ok(!match(cors, 'http://github.com.test:80'))
     })
 
-    it('sould not match prefix-like hosts', function(){
+    it('should not match prefix-like hosts', function(){
       assert.ok(!match(cors, 'https://testgithub.com:80'))
       assert.ok(!match(cors, 'http://testgithub.com:80'))
     })
 
-    it('sould not match sub-level hosts', function(){
+    it('should not match sub-level hosts', function(){
       assert.ok(!match(cors, 'https://test.github.com:80'))
       assert.ok(!match(cors, 'http://test.github.com:80'))
     })
 
-    it('sould not match incorrect host', function(){
+    it('should not match incorrect host', function(){
       assert.ok(!match(cors, 'http://microsoft.com:80'))
       assert.ok(!match(cors, 'https://microsoft.com:80'))
     })
@@ -276,28 +276,28 @@ describe('express-cors', function(){
       ]
     })
 
-    it('sould match correct scheme and without port', function(){
+    it('should match correct scheme and without port', function(){
       assert.ok(match(cors, 'https://github.com'))
     })
 
-    it('sould match correct scheme and any port', function(){
+    it('should match correct scheme and any port', function(){
       assert.ok(match(cors, 'https://github.com:80'))
       assert.ok(match(cors, 'https://github.com:8080'))
     })
 
-    it('sould not match incorrect scheme', function(){
+    it('should not match incorrect scheme', function(){
       assert.ok(!match(cors, 'http://github.com'))
       assert.ok(!match(cors, 'http://github.com:8080'))
     })
 
-    it('sould not match sub-level hosts', function(){
+    it('should not match sub-level hosts', function(){
       assert.ok(!match(cors, 'https://test.github.com'))
       assert.ok(!match(cors, 'http://test.github.com'))
       assert.ok(!match(cors, 'https://test.github.com:80'))
       assert.ok(!match(cors, 'http://test.github.com:80'))
     })
 
-    it('sould not match incorrect host', function(){
+    it('should not match incorrect host', function(){
       assert.ok(!match(cors, 'http://microsoft.com'))
       assert.ok(!match(cors, 'https://microsoft.com'))
       assert.ok(!match(cors, 'http://microsoft.com:80'))
@@ -312,26 +312,26 @@ describe('express-cors', function(){
       ]
     })
 
-    it('sould match any scheme and without port', function(){
+    it('should match any scheme and without port', function(){
       assert.ok(match(cors, 'https://github.com'))
       assert.ok(match(cors, 'http://github.com'))
     })
 
-    it('sould match any scheme and any port', function(){
+    it('should match any scheme and any port', function(){
       assert.ok(match(cors, 'http://github.com:80'))
       assert.ok(match(cors, 'http://github.com:8080'))
       assert.ok(match(cors, 'https://github.com:80'))
       assert.ok(match(cors, 'https://github.com:8080'))
     })
 
-    it('sould not match sub-level hosts', function(){
+    it('should not match sub-level hosts', function(){
       assert.ok(!match(cors, 'https://test.github.com'))
       assert.ok(!match(cors, 'http://test.github.com'))
       assert.ok(!match(cors, 'https://test.github.com:80'))
       assert.ok(!match(cors, 'http://test.github.com:80'))
     })
 
-    it('sould not match incorrect host', function(){
+    it('should not match incorrect host', function(){
       assert.ok(!match(cors, 'http://microsoft.com'))
       assert.ok(!match(cors, 'https://microsoft.com'))
       assert.ok(!match(cors, 'http://microsoft.com:80'))
@@ -346,33 +346,33 @@ describe('express-cors', function(){
       ]
     })
 
-    it('sould match any scheme and without port', function(){
+    it('should match any scheme and without port', function(){
       assert.ok(match(cors, 'https://github.com'))
       assert.ok(match(cors, 'http://github.com'))
     })
 
-    it('sould match any sub-level host with any scheme and without port', function(){
+    it('should match any sub-level host with any scheme and without port', function(){
       assert.ok(match(cors, 'https://test.github.com'))
       assert.ok(match(cors, 'http://test.github.com'))
       assert.ok(match(cors, 'https://a.test.github.com'))
       assert.ok(match(cors, 'http://a.test.github.com'))
     })
 
-    it('sould match any scheme and any port', function(){
+    it('should match any scheme and any port', function(){
       assert.ok(match(cors, 'http://github.com:80'))
       assert.ok(match(cors, 'http://github.com:8080'))
       assert.ok(match(cors, 'https://github.com:80'))
       assert.ok(match(cors, 'https://github.com:8080'))
     })
 
-    it('sould match any sub-level host and any scheme and any port', function(){
+    it('should match any sub-level host and any scheme and any port', function(){
       assert.ok(match(cors, 'http://test.github.com:80'))
       assert.ok(match(cors, 'http://test.github.com:8080'))
       assert.ok(match(cors, 'https://test.github.com:80'))
       assert.ok(match(cors, 'https://test.github.com:8080'))
     })
 
-    it('sould not match incorrect host', function(){
+    it('should not match incorrect host', function(){
       assert.ok(!match(cors, 'http://microsoft.com'))
       assert.ok(!match(cors, 'https://microsoft.com'))
       assert.ok(!match(cors, 'http://microsoft.com:80'))
