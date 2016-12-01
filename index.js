@@ -92,7 +92,7 @@ module.exports = function(options) {
       res.set('Access-Control-Allow-Credentials', 'true')
     }
 
-    if ('OPTIONS' == req.method) return res.send(200)
+    if ('OPTIONS' == req.method) return res.sendStatus(200)
     next()
   }
 }
