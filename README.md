@@ -1,3 +1,7 @@
+# Deprecation Notice
+
+This project has been archived and will no longer receive maintenance or updates. I want to express my gratitude to the entire community for your usage and contributions.
+
 # express-cors
 Simple middleware for adding [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing) functionality to your [expressjs](http://expressjs.com/) app.
 
